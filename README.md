@@ -1,11 +1,9 @@
-**Installation**
+**Installation from the R-console**
 
-To install the ssbtools package directly from the R-console:
-
-Install devtools if you haven't already
+#Install devtools if you haven't already
 install.packages("devtools")
 
-Install ssbtools from GitHub
+#Install ssbtools from GitHub
 devtools::install_github("willemdig/ssbtools")
 
 **Usage**
@@ -27,7 +25,7 @@ This will:
 - Read the query from JSON/ssbapi_table_12030.json
 - Download fresh data from SSB (only if it has changed)
 - Cache the result as csv/ssb/ssb_table_12030.csv
-- 
+
 df <- ssb_get_csv("12030")
 
 The first time it runs, it fetches data from SSB.
