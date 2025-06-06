@@ -1,3 +1,5 @@
+**ssbtools** is a lightweight R package that makes it easy to retrieve, cache, and reuse data from [Statistics Norway (SSB)](https://www.ssb.no)'s JSON-stat API.
+
 **Installation from the R-console**
 
 #Install devtools if you haven't already
