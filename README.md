@@ -1,8 +1,8 @@
 # ssbtools
 
-**ssbtools** is a lightweight R package that makes it easy to retrieve, cache, and reuse data from [Statistics Norway (SSB)](https://www.ssb.no)'s JSON-stat API.
+**ssbtools** is a lightweight R package that simplifies retrieving, caching, and reusing data from [Statistics Norway (SSB)](https://www.ssb.no)'s JSON-stat API.
 
-It is especially useful when working with saved SSB queries and when you want to avoid re-downloading large datasets unnecessarily.
+It is especially useful when working with saved queries from SSB's StatBank and when you want to avoid re-downloading large datasets unnecessarily.
 
 ## Installation (from the R console)
 
@@ -16,15 +16,16 @@ devtools::install_github("willemdig/ssbtools")
 
 ## Usage
 
-1. Save your query as a `.json` file via SSB's StatBank.
-2. Place the file in a `JSON/` folder inside your project directory.
-3. The file must follow this naming format:
+### `ssb_get_csv(table_id)`
+1. Save your query as a `.json` file from [SSB StatBank](https://www.ssb.no/en/statbank).
+2. Place the file inside a `JSON/` folder in your project directory.
+3. Use this naming format for the file:
 
 ```
 JSON/ssbapi_table_<table_id>.json
 ```
 
-**Example:**
+**Example directory structure:**
 
 ```
 your-project/
@@ -32,7 +33,7 @@ your-project/
 │   └── ssbapi_table_12030.json
 ```
 
-4. Use `ssb_get_csv()` in your R script:
+4. In your R script:
 
 ```r
 library(ssbtools)
@@ -40,28 +41,28 @@ library(ssbtools)
 df <- ssb_get_csv("12030")
 ```
 
-This function will:
-- Read the query from `JSON/ssbapi_table_12030.json`
-- Download fresh data from SSB (only if it has changed since last time)
+This will:
+- Load the query from `JSON/ssbapi_table_12030.json`
+- Download fresh data from SSB (only if the content has changed)
 - Save or reuse the result at `csv/ssb/ssb_table_12030.csv`
 
 ## Function Reference
 
 ### `ssb_get_csv(table_id)`
-Retrieves data from SSB using a saved JSON query file, and caches the result in a CSV. Uses hashing to avoid redundant downloads.
+Retrieves data from SSB using a saved JSON query file, and caches the result as a CSV. Uses hashing to avoid redundant downloads.
 
 ### `ssb_get_metadata(table_id)`
-Fetches the full metadata (dimensions and allowed values) for a given SSB table as a list. Useful for inspecting structure before building a query.
+Fetches metadata (dimensions and values) for a given SSB table. Useful for understanding the structure before building a query.
 
 ### `ssb_get_full_table(table_id)`
-Automatically constructs a full query using **all** possible values for all dimensions in a table, and returns the entire dataset (⚠️ may be large).
+Builds a complete query using **all** values for all variables in the table and retrieves the entire dataset. ⚠️ May return a large result.
 
 ## Smart Caching
 
-The first time `ssb_get_csv()` or `ssb_get_full_table()` runs, it fetches the dataset and saves it locally.  
-On subsequent runs, it checks whether the data has changed using a content-based hash — and only re-downloads if necessary.
+The first time you run `ssb_get_csv()` or `ssb_get_full_table()`, the dataset is fetched from SSB and saved locally.  
+On later runs, the content is compared using a hash — and only updated if it has changed.
 
 ## License
 
 This package is licensed under the MIT License and provided without warranty.  
-It was developed independently using open public data from Statistics Norway (SSB).
+It was developed independently using open data from Statistics Norway (SSB).
