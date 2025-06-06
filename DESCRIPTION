@@ -1,0 +1,24 @@
+Package: ssbtools
+Type: Package
+Title: SSB API Tools for Data Retrieval and Caching
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "Willem", "Ofstad",
+      email = "willem.ofstad@digdir.com",
+      role = c("aut", "cre")
+    )
+  )
+Description: A small utility for fetching data from the Statistics Norway (SSB) JSON-stat API
+    and caching it locally as CSV using hash-based change detection.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports:
+    httr,
+    jsonlite,
+    rjstat,
+    digest,
+    readr,
+    glue
+RoxygenNote: 7.3.2
