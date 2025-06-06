@@ -9,19 +9,28 @@ ssb_get_csv(table_id, folder = "csv/ssb", json_folder = "JSON")
 ssb_get_csv(table_id, folder = "csv/ssb", json_folder = "JSON")
 }
 \arguments{
-\item{table_id}{The table ID as string, e.g., "12030"}
+\item{table_id}{A string representing the SSB table ID, e.g. `"12030"`.}
 
-\item{folder}{Where to save/read CSV files (default: "csv/ssb")}
+\item{folder}{Folder path where CSV files are stored (default: `"csv/ssb"`).}
 
-\item{json_folder}{Folder containing query JSON files (default: "JSON")}
+\item{json_folder}{Folder path where saved JSON query files are stored (default: `"JSON"`).}
 }
 \value{
 A data frame (tibble) from the API or CSV
 
-A data frame (tibble) from the API or CSV
+A tibble containing the data from SSB, either freshly downloaded or cached.
 }
 \description{
-Download or load SSB table as CSV with caching
-
-Download or load SSB table as CSV with caching
+Downloads a table from the SSB StatBank API using a saved JSON query,
+stores it as a CSV file, and caches the result using a content hash to
+avoid redundant API calls.
+}
+\details{
+The function checks if the previously downloaded content has changed.
+If unchanged, it loads the data from the existing CSV instead of
+querying the API again.
+}
+\examples{
+# Example usage (requires JSON/ssbapi_table_12030.json to exist):
+df <- ssb_get_csv("12030")
 }

@@ -2,18 +2,33 @@
 % Please edit documentation in R/ssb_get_metadata.R
 \name{ssb_get_metadata}
 \alias{ssb_get_metadata}
-\title{Fetch metadata (variables and codes) for a given SSB table}
+\title{Retrieve metadata (variables and codes) for an SSB table}
 \usage{
 ssb_get_metadata(table_id, language = "en")
 }
 \arguments{
-\item{table_id}{The SSB table ID (e.g., "12030")}
+\item{table_id}{A string representing the SSB table ID, e.g. `"12030"`.}
 
-\item{language}{Two-letter code: "en" (English) or "no" (Norwegian). Default: "en"}
+\item{language}{Two-letter language code: `"en"` for English or `"no"` for Norwegian (default: `"en"`).}
 }
 \value{
-A list of variables with their codes and allowed values
+A list of variables, each containing:
+  \itemize{
+    \item \code{code}: Variable ID used in queries
+    \item \code{text}: Human-readable label
+    \item \code{values}: Valid value codes
+    \item \code{valueTexts}: Human-readable value labels
+  }
 }
 \description{
-Fetch metadata (variables and codes) for a given SSB table
+This function queries Statistics Norway’s (SSB) JSON-stat API to return
+metadata for a given table. The metadata includes variable codes,
+descriptions, and possible values for use in dynamic query construction.
+}
+\examples{
+# Fetch metadata for table 12030 in English
+meta <- ssb_get_metadata("12030")
+
+# Fetch metadata in Norwegian
+meta_no <- ssb_get_metadata("12030", language = "no")
 }

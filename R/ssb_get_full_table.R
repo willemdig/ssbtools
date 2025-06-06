@@ -1,49 +1,35 @@
-#' Fetch full table from SSB using table ID (all variables, all values)
+#' Fetch the full SSB table by requesting all combinations of values
 #'
-#' @param table_id The table ID as a string (e.g. "12030")
-#' @param language "en" (English) or "no" (Norwegian). Default is "en"
+#' @param table_id Table number, e.g. "12030"
 #'
-#' @return A data frame containing the full table (or as much as SSB allows)
+#' @return A data frame with all data from the table
 #' @export
-ssb_get_full_table <- function(table_id, language = "en") {
-  library(httr)
-  library(jsonlite)
-  library(rjstat)
-  library(glue)
+ssb_get_full_table <- function(table_id) {
+  message(glue::glue("🔄 Attempting to fetch ALL data from SSB table {table_id}"))
   
-  message(glue("⚠ Attempting to fetch ALL data from SSB table {table_id} — may take time or fail if table is large."))
+  url_meta <- paste0("https://data.ssb.no/api/v0/no/table/", table_id)
+  meta_res <- httr::GET(url_meta)
+  meta <- httr::content(meta_res, as = "parsed")
   
-  # Step 1: Fetch metadata
-  metadata_url <- paste0("https://data.ssb.no/api/v0/", language, "/table/", table_id)
-  meta_res <- GET(metadata_url)
-  if (meta_res$status_code != 200) {
-    stop(glue("Failed to retrieve metadata for table {table_id} (HTTP {meta_res$status_code})"))
-  }
-  metadata <- fromJSON(content(meta_res, "text", encoding = "UTF-8"))
-  
-  # Step 2: Build query object using all values for each variable
-  query_obj <- list(
-    query = lapply(metadata$variables, function(var) {
-      list(
-        code = var$code,
-        selection = list(
-          filter = "item",
-          values = var$values
-        )
+  # Build a query with "all" values for each variable
+  query_list <- lapply(meta$variables, function(var) {
+    list(
+      code = var$code,
+      selection = list(
+        filter = "item",
+        values = var$values
       )
-    }),
+    )
+  })
+  
+  body <- list(
+    query = query_list,
     response = list(format = "json-stat2")
   )
   
-  # Step 3: Send POST request with full query
-  query_url <- paste0("https://data.ssb.no/api/v0/", language, "/table/", table_id)
-  res <- POST(query_url, body = query_obj, encode = "json")
-  if (res$status_code != 200) {
-    stop(glue("Failed to retrieve data from table {table_id} (HTTP {res$status_code})"))
-  }
+  res <- httr::POST(url_meta, body = body, encode = "json")
+  raw_text <- httr::content(res, as = "text", encoding = "UTF-8")
   
-  # Step 4: Parse JSON-stat response
-  df <- fromJSONstat(content(res, "text", encoding = "UTF-8"))
-  
+  df <- rjstat::fromJSONstat(raw_text)
   return(df)
 }

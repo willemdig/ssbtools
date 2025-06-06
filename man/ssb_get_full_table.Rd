@@ -2,18 +2,16 @@
 % Please edit documentation in R/ssb_get_full_table.R
 \name{ssb_get_full_table}
 \alias{ssb_get_full_table}
-\title{Fetch full table from SSB using table ID (all variables, all values)}
+\title{Fetch the full SSB table by requesting all combinations of values}
 \usage{
-ssb_get_full_table(table_id, language = "en")
+ssb_get_full_table(table_id)
 }
 \arguments{
-\item{table_id}{The table ID as a string (e.g. "12030")}
-
-\item{language}{"en" (English) or "no" (Norwegian). Default is "en"}
+\item{table_id}{Table number, e.g. "12030"}
 }
 \value{
-A data frame containing the full table (or as much as SSB allows)
+A data frame with all data from the table
 }
 \description{
-Fetch full table from SSB using table ID (all variables, all values)
+Fetch the full SSB table by requesting all combinations of values
 }
