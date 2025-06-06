@@ -22,6 +22,7 @@ R-projectfolder/JSON/ssbapi_table_12030.json
 Use the function ssb_get_csv() in your R script:
 
 library(ssbtools)
+
 df <- ssb_get_csv("12030")
 
 This will:
