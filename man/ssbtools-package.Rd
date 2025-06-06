@@ -15,7 +15,7 @@ your JSON queries from the SSB web UI and load them directly via
 \code{\link{ssb_get_csv}}, \code{\link{ssb_get_full_table}}, \code{\link{ssb_get_metadata}}
 }
 \author{
-\strong{Maintainer}: Willem Ofstad \email{willem.ofstad@digdir.com}
+\strong{Maintainer}: Willem Ofstad \email{willem.ofstad@digdir.no}
 
 }
 \keyword{package}
