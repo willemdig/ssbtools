@@ -59,8 +59,10 @@ Builds a complete query using **all** values for all variables in the table and 
 
 ## Smart Caching
 
-The first time you run `ssb_get_csv()` or `ssb_get_full_table()`, the dataset is fetched from SSB and saved locally.  
-On later runs, the content is compared using a hash — and only updated if it has changed.
+The first time you run `ssb_get_csv()`, the dataset is fetched from SSB and saved locally.  
+On later runs, the content is compared using a hash and only updated if it has changed.
+
+`ssb_get_full_table()` doesn't have this functionality yet, but I'll get back to it.
 
 ## License
 
