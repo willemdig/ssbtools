@@ -18,8 +18,9 @@ devtools::install_github("willemdig/ssbtools")
 
 ### `ssb_get_csv(table_id)`
 1. Save your query as a `.json` file from [SSB StatBank](https://www.ssb.no/en/statbank).
-2. Place the file inside a `JSON/` folder in your project directory.
-3. Use this naming format for the file:
+(Alternatively, if you know the data table, you can get queries from [https://data.ssb.no/api/v0/no/console](https://data.ssb.no/api/v0/no/console))
+3. Place the file inside a `JSON/` folder in your project directory.
+4. Use this naming format for the file:
 
 ```
 JSON/ssbapi_table_<table_id>.json
