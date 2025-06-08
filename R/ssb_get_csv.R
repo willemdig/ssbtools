@@ -30,38 +30,37 @@ ssb_get_csv <- function(table_id,
   json_path <- file.path(json_folder, paste0("ssbapi_table_", table_id, ".json"))
   url       <- glue::glue("https://data.ssb.no/api/v0/{language}/table/{table_id}/")
   
-  query_obj <- jsonlite::read_json(json_path)$queryObj
+  # Build request
+  query_obj   <- jsonlite::read_json(json_path)$queryObj
   request_body <- list(query = query_obj, response = list(format = "json-stat2"))
-  body_hash <- digest::digest(request_body)
+  body_hash   <- digest::digest(request_body)
   
   # Cache file paths
-  cache_csv  <- file.path(cache_dir, paste0("ssb_", table_id, "_", body_hash, ".csv"))
-  cache_hash <- file.path(cache_dir, paste0("ssb_", table_id, "_", body_hash, ".hash"))
-  
-  # User-facing CSV path
-  output_csv <- file.path(folder, paste0("ssb_table_", table_id, ".csv"))
+  cache_csv   <- file.path(cache_dir, paste0("ssb_", table_id, "_", body_hash, ".csv"))
+  cache_hash  <- file.path(cache_dir, paste0("ssb_", table_id, "_", body_hash, ".hash"))
+  output_csv  <- file.path(folder, paste0("ssb_table_", table_id, ".csv"))
   
   # Fetch from API
-  res       <- httr::POST(url, body = request_body, encode = "json")
-  raw_text  <- httr::content(res, as = "text", encoding = "UTF-8")
-  new_hash  <- digest::digest(raw_text)
+  res <- httr::POST(url, body = request_body, encode = "json")
+  raw_text <- httr::content(res, as = "text", encoding = "UTF-8")
+  new_hash <- digest::digest(raw_text)
   
-  # Load from cache if no change
+  # Use cached result if available and unchanged
   if (file.exists(cache_hash)) {
     old_hash <- readLines(cache_hash, warn = FALSE)
     if (new_hash == old_hash && file.exists(cache_csv)) {
-      message(glue::glue("✔ Tabell {table_id}: ingen endring — bruker cache"))
+      message(glue::glue("✔ Table {table_id}: no change — using cached data"))
       file.copy(cache_csv, output_csv, overwrite = TRUE)
       return(readr::read_csv(output_csv, show_col_types = FALSE))
     }
   }
   
-  # Save new data
+  # Save new result
   df <- rjstat::fromJSONstat(raw_text)
   readr::write_csv(df, cache_csv)
   readr::write_csv(df, output_csv)
   writeLines(new_hash, cache_hash)
-  message(glue::glue("⬇ Tabell {table_id}: data oppdatert og skrevet til cache og CSV"))
+  message(glue::glue("⬇ Table {table_id}: data updated and written to cache and CSV"))
   
   return(df)
 }
