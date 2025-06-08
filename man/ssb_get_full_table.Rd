@@ -2,16 +2,20 @@
 % Please edit documentation in R/ssb_get_full_table.R
 \name{ssb_get_full_table}
 \alias{ssb_get_full_table}
-\title{Fetch the full SSB table by requesting all combinations of values}
+\title{Fetch the full SSB table by requesting all combinations of values (with smart caching)}
 \usage{
-ssb_get_full_table(table_id)
+ssb_get_full_table(table_id, language = "no", cache_dir = ".cache/ssb")
 }
 \arguments{
 \item{table_id}{Table number, e.g. "12030"}
+
+\item{language}{Language code: "no" (default) or "en"}
+
+\item{cache_dir}{Directory to store cache files (default: ".cache/ssb")}
 }
 \value{
-A data frame with all data from the table
+A data frame with all data from the table (from API or cache)
 }
 \description{
-Fetch the full SSB table by requesting all combinations of values
+Fetch the full SSB table by requesting all combinations of values (with smart caching)
 }
