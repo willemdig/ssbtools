@@ -1,7 +1,7 @@
 Package: ssbtools
 Type: Package
 Title: SSB API Tools for Data Retrieval and Caching
-Version: 0.4.0
+Version: 0.5.0
 URL: https://github.com/willemdig/ssbtools
 Authors@R: c(
     person(

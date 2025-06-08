@@ -4,14 +4,21 @@
 \alias{ssb_get_full_table}
 \title{Fetch the full SSB table by requesting all combinations of values (with smart caching)}
 \usage{
-ssb_get_full_table(table_id, language = "no", cache_dir = ".cache/ssb")
+ssb_get_full_table(
+  table_id,
+  language = "no",
+  cache_dir = ".cache/ssb",
+  folder = "csv/ssb"
+)
 }
 \arguments{
 \item{table_id}{Table number, e.g. "12030"}
 
 \item{language}{Language code: "no" (default) or "en"}
 
-\item{cache_dir}{Directory to store cache files (default: ".cache/ssb")}
+\item{cache_dir}{Directory to store internal cache files (default: ".cache/ssb")}
+
+\item{folder}{Directory to store the user-facing CSV file (default: "csv/ssb")}
 }
 \value{
 A data frame with all data from the table (from API or cache)
